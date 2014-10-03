@@ -30,11 +30,13 @@ module View
     puts "\nEnter location:"
     print "> "
     location = gets.chomp
+    exit! if location == ""
     $last_search_location = location
 
     puts "\nEnter search term:"
     print "> "
     term = gets.chomp.downcase
+    exit! if term == ""
 
     category = get_category
 
@@ -47,6 +49,7 @@ module View
     categories.each_with_index { |cat, i| puts " #{i + 1}. #{cat}" }
     print "> "
     input = gets.chomp.to_i
+    exit! if input == 0
     unless (1..categories.length).include?(input)
       puts "\nInvalid input."
       get_category
@@ -60,9 +63,13 @@ module View
     self.print_line
     puts "Here's what's Mmmmmmmmmm...".center(102, " ")
     self.headers
-    results.each_with_index do |result, i|
-      visited = Bookmark.any? { |bookmark| bookmark.yelp_id == result.id }
+      begin
 
+    if results.empty?
+      puts "No results found"
+    else
+      results.each_with_index do |result, i|
+      visited = Bookmark.any? { |bookmark| bookmark.yelp_id == result.id && bookmark.visited }
       puts [
         " #{i + 1}".center(4, " "),
         " #{result.name}".ljust(40, " "),
@@ -71,8 +78,12 @@ module View
         "#{result.rating}".center(9, " "),
         "#{'X' if visited}".center(9, " ")
       ].join("|")
-    end
 
+     end
+    end
+    rescue
+    puts "hMmmmmmmmmmm...? Could not find your address, please try again."
+    end
     self.print_line
 
     self.results_menu(results)
@@ -140,7 +151,7 @@ module View
     case command
     when 1 then self.query_prompt
     when 2 then self.show_bookmarks
-    when 3 then self.clear_screen; exit
+    when 3 then self.clear_screen; exit!
     else
       puts "\nInvalid command."
       self.user_continue
