@@ -4,6 +4,7 @@ require 'active_record'
 require 'logger'
 require 'faker'
 require 'yelp'
+require 'google_directions'
 
 APP_ROOT = Pathname.new(File.expand_path(File.join(File.dirname(__FILE__), '..')))
 
@@ -44,3 +45,4 @@ $yelp = Yelp::Client.new({ consumer_key: 'ABHseWQ2ikV5ke6mpU-6-A',
                            token_secret: 'vWr4aIV3iwgib9F9mrTHKFTob_E'
                         })
 
+GOOGLE_MAPS_API_KEY = 'AIzaSyA-MMwBr12H47ZO5Ih1NndUywirmMID3FE'

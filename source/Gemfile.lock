@@ -21,9 +21,14 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
+    google_directions (0.1.6.2)
+      nokogiri (>= 1.4.1)
     i18n (0.6.1)
+    mini_portile (0.6.0)
     multi_json (1.6.1)
     multipart-post (2.0.0)
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
@@ -46,6 +51,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   faker
+  google_directions
   rspec
   sqlite3
   yelp
