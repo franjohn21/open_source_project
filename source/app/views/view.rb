@@ -1,10 +1,7 @@
-module View
-  # show prompt
-  # command-line output of query results
-  # pass input to controller
-  # Controller.execute_comand(input)
+require_relative '../../config/application'
 
-  def self.startup
+module View
+  def self.start
     # welcome screen
     self.query_prompt
   end
@@ -12,33 +9,37 @@ module View
   def self.query_prompt
     puts "Enter zipcode:"
     print "> "
-    zipcode = gets.chomp
+    zipcode = gets.chomp.to_i
 
     puts "Enter category:"
     print "> "
-    category = gets.chomp
+    category = gets.chomp.downcase
 
-    c.query(zipcode, category)
+    Controller.query(zipcode, category)
   end
 
   def self.show_results(results)
-    p results
-    self.menu
+    results.each_with_index { |result, i| puts "#{i + 1}. ".rjust(4, " ") + result[:name] }
+    self.menu(results)
   end
 
-  def self.menu
+  def self.menu(results)
     puts "What would you like to do next?"
-    puts "1. Run another search"
-    puts "2. Bookmark <id>"
+    puts " 1. Run another search"
+    puts " 2. Bookmark <id>"
+    puts " 3. Quit"
     input = gets.chomp
+    command = input.split(" ")[0].to_i
+    option = input.split(" ")[1].to_i
 
-    if input.include?("2")
-      c.Bookmark(arguments)
-    elsif input == 1
-      self.query_prompt
+    case command
+    when 1 then self.query_prompt
+    when 2 then c.bookmark(results[option - 1])
+    when 3 then exit
     else
-      # error message
-     end
+      puts "Invalid command."
+      self.menu(results)
+    end
   end
 
 
