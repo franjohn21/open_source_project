@@ -51,7 +51,7 @@ class Controller
       }
     end
 
-    all_results.select { |result| result[:category] == category && result[:zipcode] == zipcode }
+    all_results.select { |result| result[:category].downcase == category && result[:zipcode] == zipcode }
   end
 
 end
