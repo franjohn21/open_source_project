@@ -3,6 +3,7 @@ require 'sqlite3'
 require 'active_record'
 require 'logger'
 require 'faker'
+require 'yelp'
 
 APP_ROOT = Pathname.new(File.expand_path(File.join(File.dirname(__FILE__), '..')))
 
@@ -36,3 +37,10 @@ end
 
 ActiveRecord::Base.establish_connection :adapter  => 'sqlite3',
                                         :database => DB_PATH
+
+$yelp = Yelp::Client.new({ consumer_key: 'ABHseWQ2ikV5ke6mpU-6-A',
+                           consumer_secret: '2EFEJD4UYc2k9D_nhfUZU3BYszA',
+                           token: 'U8l06FytOYvxYf68d-EFPl-L7buOKTEa',
+                           token_secret: 'vWr4aIV3iwgib9F9mrTHKFTob_E'
+                        })
+

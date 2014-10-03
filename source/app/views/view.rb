@@ -2,31 +2,36 @@ require_relative '../../config/application'
 
 module View
   def self.start
-    # welcome screen
+    # TODO: welcome screen
     self.query_prompt
   end
 
+  # TODO: improve output; clear screen?
   def self.query_prompt
-    puts "\nEnter zipcode:"
+    puts "\nEnter location:"
     print "> "
-    zipcode = gets.chomp.to_i
+    location = gets.chomp
+
+    puts "\nEnter search term:"
+    print "> "
+    term = gets.chomp.downcase
 
     puts "\nEnter category:"
     print "> "
     category = gets.chomp.downcase
 
-    Controller.query(zipcode, category)
+    Controller.query(location, term, category)
   end
 
   def self.show_results(results)
     self.headers
     results.each_with_index do |result, i|
       puts [
-        "#{i + 1}".center(4, " "),
-        " #{result[:name]}".ljust(40, " "),
-        "#{result[:category]}".center(15, " "),
-        "#{result[:zipcode]}".center(10, " "),
-        "#{result[:rating]}".center(9, " ")
+        " #{i + 1}".center(4, " "),
+        " #{result.name}".ljust(40, " "),
+        "#{result.location.neighborhoods[0]}".center(24, " "),
+        "#{result.review_count}".center(11, " "),
+        "#{result.rating}".center(9, " ")
       ].join("|")
     end
 
@@ -37,11 +42,11 @@ module View
     puts [
      "##".center(4, " "),
      "Name".center(40, " "),
-     "Category".center(15, " "),
-     "Zipcode".center(10, " "),
+     "Neighborhood".center(24, " "),
+     "Reviews".center(11, " "),
      "Rating".center(9, " ")
     ].join("|")
-    puts "-" * 82
+    puts "-" * 91
   end
 
   def self.menu(results)

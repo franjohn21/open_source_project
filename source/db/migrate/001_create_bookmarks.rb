@@ -1,8 +1,7 @@
 class CreateBookmarks < ActiveRecord::Migration
   def change
     create_table :bookmarks do |t|
-      t.string :name, :category
-      t.integer :zipcode
+      t.string :name, :category, :zipcode
       t.float :rating
       t.boolean :visited, default: false
       t.timestamps
